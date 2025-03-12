@@ -1,64 +1,94 @@
 package pages;
 
-import org.openqa.selenium.By;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import utils.Log;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class LoginPage {
 
 	private WebDriver driver;
+	private WebDriverWait wait;
 	
-	@FindBy(id ="Email" )
-	WebElement usernameTextBox;
+
+	@FindBy(id = "header-search-input")
+	WebElement comSearchBox;
+
+	@FindBy(css = "p[class='line1'] span")
+	List<WebElement> selectCompany;
 	
-	@FindBy(id = "Password")
-	WebElement passwordTexBox;
+	@FindBy(id = "week52highVal")
+	WebElement stockPriceElement;
+//	WebElement hight_value;
 	
-	@FindBy(xpath = "//*[@id=\\\"main\\\"]/div/div/div/div[2]/div[1]/div/form/div[3]/button")
-	WebElement loginButton;
+	@FindBy(id = "week52lowVal")
+	WebElement low_value;
 	
-	
-	
-	
-//	private By usernaneTexBox = By.id("Email");
-//	private By passwordTexBox = By.id("Password");
-//	private By loginButton = By.xpath("//*[@id=\"main\"]/div/div/div/div[2]/div[1]/div/form/div[3]/button");
+//	@FindBy(xpath ="//*[@id='currentPrice']" )
+//	WebElement stockPriceElement;
 
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
+		
 	}
 
-	public void enterUsername(String username) {
-		
-		usernameTextBox.clear();
-		usernameTextBox.sendKeys(username);
-		
-//		driver.findElement(usernaneTexBox).clear();
-//		driver.findElement(usernaneTexBox).sendKeys(username);
+	public void enterCompanyName(String companyName) {
+		comSearchBox.sendKeys(companyName);
+
 	}
 
-	public void enterPasswork(String password) {
+	public void selectCompanyName(String selCompay) {
+		System.out.println("count= " + selectCompany.size());
+		for (WebElement option : selectCompany)
+			if (option.getText().equalsIgnoreCase(selCompay)) {
+				option.click();
+				break;
+			}
 		
-		passwordTexBox.clear();
-		passwordTexBox.sendKeys(password);
+	
+
+	}
+	public String  getStockHighPrice() throws InterruptedException {
 		
+		Thread.sleep(5);
 		
-//		driver.findElement(passwordTexBox).clear();
-//		driver.findElement(passwordTexBox).sendKeys(password);
+		String stockprice = stockPriceElement.getText();
+		 return stockprice;
+
+//        String stockPrice = stockPriceElement.getText();
+//        System.out.println("Stock Price of RELIANCE: " + stockPrice);
+        
+        
+//        Assert.assertEquals("52 week high price : " +stockPrice, 2.58);
+        
+//        assert !stockPrice.isEmpty() : "Stock price is empty!";
+		
+//	String hightPrice = hight_value.
+//	
+//	
+//	System.out.println(hightPrice);
+//	System.out.println(hightPrice);
+//	System.out.println(hightPrice);
+		
+//	Assert.assertEquals("52 week high price : " +hightPrice, hightPrice);
+//	Assert.assertEquals("52 week high price : " +hightPrice, 2.58);
+		 
+	}
+	public void weekLowValues() {
+	String lowPrice =	low_value.getText();
+	System.out.println(lowPrice);
+//	Assert.assertEquals(lowPrice, 1.45);
 	}
 
-	public void clickLogin() {
-		
-		
-		loginButton.click();
-		
-		Log.info("Clicked on login button...");
-//		driver.findElement(loginButton).click();
-	}
+	
+	
+	
 
 }
